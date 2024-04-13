@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP8266 WEB Control By Buttons</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+    .container {
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ESP8266 WEB Control By Buttons</h1>
+    
+    <button id="ON">ON</button>
+    <button id="OFF">OFF</button>
+  </div>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "XXXXXXXXXX",
+    authDomain: "XXXXXXXXXX",
+    databaseURL: "XXXXXXXXXX",
+    projectId: "XXXXXXXXXX",
+    storageBucket: "XXXXXXXXXX",
+    messagingSenderId: "XXXXXXXXXX",
+    appId: "XXXXXXXXXX"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Button event listeners
+    document.getElementById("ON").addEventListener("click", () => {
+      // Write data to Firebase Realtime Database
+      set(ref(database, "/IoT"), {
+        COMM: "ON"
+      })
+      .then(() => {
+        console.log("ON Successful");
+      })
+      .catch(error => {
+        console.error("ON Failed : ", error);
+      });
+    });
+
+    document.getElementById("OFF").addEventListener("click", () => {
+      // Write data to Firebase Realtime Database
+      set(ref(database, "/IoT"), {
+        COMM: "OFF"
+      })
+      .then(() => {
+        console.log("OFF Successful");
+      })
+      .catch(error => {
+        console.error("OFF Failed : ", error);
+      });
+    });
+  </script>
+</body>
+</html>
